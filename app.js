@@ -39,6 +39,8 @@ const elements = {
   pageTitle: document.querySelector("#pageTitle"),
   navLinks: document.querySelectorAll(".nav-link"),
   sections: document.querySelectorAll(".page-section"),
+  
+  // Volunteer Elements
   volunteerForm: document.querySelector("#volunteerForm"),
   volunteerId: document.querySelector("#volunteerId"),
   volunteerName: document.querySelector("#volunteerName"),
@@ -47,18 +49,25 @@ const elements = {
   clearVolunteer: document.querySelector("#clearVolunteer"),
   volunteerTable: document.querySelector("#volunteerTable"),
   volunteerCount: document.querySelector("#volunteerCount"),
+  
+  // Harvest Elements
   harvestForm: document.querySelector("#harvestForm"),
+  harvestId: document.querySelector("#harvestId"),
   harvestDate: document.querySelector("#harvestDate"),
   cropType: document.querySelector("#cropType"),
   quantity: document.querySelector("#quantity"),
   responsible: document.querySelector("#responsible"),
   unitPrice: document.querySelector("#unitPrice"),
   unitCost: document.querySelector("#unitCost"),
+  clearHarvest: document.querySelector("#clearHarvest"), // Novo elemento mapeado
+  
+  // History Elements
   historySearch: document.querySelector("#historySearch"),
   historyTable: document.querySelector("#historyTable"),
   prevPage: document.querySelector("#prevPage"),
   nextPage: document.querySelector("#nextPage"),
   pageInfo: document.querySelector("#pageInfo"),
+  
   dashboardPeriod: document.querySelector("#dashboardPeriod"),
   toast: document.querySelector("#toast"),
   reportSegments: document.querySelectorAll("[data-report-period]")
@@ -66,10 +75,10 @@ const elements = {
 
 const titles = {
   home: "Painel principal",
-  volunteers: "Cadastro de voluntarios",
+  volunteers: "Cadastro de voluntários",
   harvest: "Registro de colheita",
-  history: "Historico de producao",
-  reports: "Relatorios automaticos"
+  history: "Histórico de produção",
+  reports: "Relatórios automáticos"
 };
 
 document.addEventListener("DOMContentLoaded", init);
@@ -89,16 +98,22 @@ function bindEvents() {
   elements.logoutButton.addEventListener("click", logout);
   elements.menuToggle.addEventListener("click", () => elements.sidebar.classList.toggle("open"));
   elements.navLinks.forEach((button) => button.addEventListener("click", () => showSection(button.dataset.section)));
+  
   elements.volunteerForm.addEventListener("submit", saveVolunteer);
   elements.clearVolunteer.addEventListener("click", resetVolunteerForm);
+  
   elements.harvestForm.addEventListener("submit", saveHarvest);
+  elements.clearHarvest.addEventListener("click", resetHarvestForm); // Evento para limpar o form de colheita
+
   elements.historySearch.addEventListener("input", () => {
     currentPage = 1;
     renderHistory();
   });
+  
   elements.prevPage.addEventListener("click", () => changePage(-1));
   elements.nextPage.addEventListener("click", () => changePage(1));
   elements.dashboardPeriod.addEventListener("change", renderAll);
+  
   elements.reportSegments.forEach((button) => button.addEventListener("click", () => {
     reportPeriod = button.dataset.reportPeriod;
     elements.reportSegments.forEach((item) => item.classList.toggle("active", item === button));
@@ -110,7 +125,6 @@ function bindEvents() {
 function loadState() {
   const saved = localStorage.getItem(STORAGE_KEY);
   if (!saved) return structuredClone(initialState);
-
   try {
     return JSON.parse(saved);
   } catch {
@@ -128,7 +142,7 @@ function handleLogin(event) {
   const password = elements.password.value.trim();
 
   if (!email || password.length < 6) {
-    elements.loginError.textContent = "Informe um e-mail valido e senha com pelo menos 6 caracteres.";
+    elements.loginError.textContent = "Informe um e-mail válido e senha com pelo menos 6 caracteres.";
     return;
   }
 
@@ -162,7 +176,7 @@ function applyTheme(theme) {
 function logout() {
   elements.appView.classList.add("hidden");
   elements.loginView.classList.remove("hidden");
-  showToast("Sessao encerrada.");
+  showToast("Sessão encerrada.");
 }
 
 function showSection(sectionId) {
@@ -172,6 +186,8 @@ function showSection(sectionId) {
   elements.sidebar.classList.remove("open");
   if (sectionId === "home" || sectionId === "reports") renderCharts();
 }
+
+// ================= VOLUNTEERS CRUD =================
 
 function saveVolunteer(event) {
   event.preventDefault();
@@ -183,23 +199,22 @@ function saveVolunteer(event) {
   };
 
   if (!payload.name || !payload.role || !payload.phone) {
-    showToast("Preencha todos os campos do voluntario.");
+    showToast("Preencha todos os campos do voluntário.");
     return;
   }
 
   const index = state.volunteers.findIndex((item) => item.id === payload.id);
   if (index >= 0) {
     state.volunteers[index] = payload;
-    showToast("Voluntario atualizado.");
+    showToast("Voluntário atualizado.");
   } else {
     state.volunteers.push(payload);
-    showToast("Voluntario cadastrado.");
+    showToast("Voluntário cadastrado.");
   }
 
   persist();
   resetVolunteerForm();
-  renderVolunteers();
-  renderResponsibleOptions();
+  renderAll();
 }
 
 function editVolunteer(id) {
@@ -215,17 +230,20 @@ function editVolunteer(id) {
 function deleteVolunteer(id) {
   const volunteer = state.volunteers.find((item) => item.id === id);
   if (!volunteer) return;
+  
   const inUse = state.harvests.some((harvest) => harvest.responsible === volunteer.name);
   if (inUse) {
-    showToast("Este voluntario esta vinculado a colheitas registradas.");
+    showToast("Este voluntário está vinculado a colheitas e não pode ser removido.");
     return;
   }
 
-  state.volunteers = state.volunteers.filter((item) => item.id !== id);
-  persist();
-  renderVolunteers();
-  renderResponsibleOptions();
-  showToast("Voluntario removido.");
+  // Adicionado confirmação para evitar cliques acidentais
+  if (confirm(`Tem certeza que deseja remover o voluntário ${volunteer.name}?`)) {
+    state.volunteers = state.volunteers.filter((item) => item.id !== id);
+    persist();
+    renderAll();
+    showToast("Voluntário removido com sucesso.");
+  }
 }
 
 function resetVolunteerForm() {
@@ -233,10 +251,12 @@ function resetVolunteerForm() {
   elements.volunteerId.value = "";
 }
 
+// ================= HARVEST CRUD =================
+
 function saveHarvest(event) {
   event.preventDefault();
   const payload = {
-    id: createId(),
+    id: elements.harvestId.value || createId(), // Pega o ID oculto se for uma edição
     date: elements.harvestDate.value,
     crop: elements.cropType.value,
     quantity: Number(elements.quantity.value),
@@ -246,17 +266,60 @@ function saveHarvest(event) {
   };
 
   if (!payload.date || !payload.crop || !payload.quantity || !payload.responsible) {
-    showToast("Preencha os dados obrigatorios da colheita.");
+    showToast("Preencha os dados obrigatórios da colheita.");
     return;
   }
 
-  state.harvests.unshift(payload);
+  const index = state.harvests.findIndex((item) => item.id === payload.id);
+  
+  if (index >= 0) {
+    state.harvests[index] = payload;
+    showToast("Colheita atualizada com sucesso.");
+  } else {
+    state.harvests.unshift(payload);
+    showToast("Colheita registrada com sucesso.");
+  }
+
   persist();
-  elements.harvestForm.reset();
-  elements.harvestDate.valueAsDate = new Date();
-  showToast("Colheita registrada com sucesso.");
+  resetHarvestForm();
   renderAll();
 }
+
+// Nova função para Editar Colheita
+function editHarvest(id) {
+  const harvest = state.harvests.find((item) => item.id === id);
+  if (!harvest) return;
+  
+  elements.harvestId.value = harvest.id;
+  elements.harvestDate.value = harvest.date;
+  elements.cropType.value = harvest.crop;
+  elements.quantity.value = harvest.quantity;
+  elements.responsible.value = harvest.responsible;
+  elements.unitPrice.value = harvest.unitPrice;
+  elements.unitCost.value = harvest.unitCost;
+  
+  showSection("harvest");
+  showToast("Editando colheita...");
+}
+
+// Nova função para Deletar Colheita
+function deleteHarvest(id) {
+  if (confirm("Tem certeza que deseja remover este registro de colheita permanentemente?")) {
+    state.harvests = state.harvests.filter((item) => item.id !== id);
+    persist();
+    renderAll();
+    showToast("Registro de colheita removido.");
+  }
+}
+
+function resetHarvestForm() {
+  elements.harvestForm.reset();
+  elements.harvestId.value = "";
+  elements.harvestDate.valueAsDate = new Date();
+}
+
+
+// ================= RENDERING =================
 
 function renderAll() {
   renderVolunteers();
@@ -306,7 +369,7 @@ function renderKpis() {
   document.querySelector("#kpiRevenue").textContent = formatCurrency(totals.revenue);
   document.querySelector("#kpiTopCrop").textContent = topCrop?.name || "-";
   document.querySelector("#kpiBalance").textContent = formatCurrency(totals.balance);
-  document.querySelector("#kpiProductionTrend").textContent = `${data.length} registros no periodo`;
+  document.querySelector("#kpiProductionTrend").textContent = `${data.length} registros no período`;
 }
 
 function renderHistory() {
@@ -331,11 +394,26 @@ function renderHistory() {
         <td>${escapeHtml(item.responsible)}</td>
         <td>${formatCurrency(revenue)}</td>
         <td>${formatCurrency(balance)}</td>
+        <td>
+          <div class="row-actions">
+            <button class="ghost-button" type="button" data-edit-harvest="${item.id}">Editar</button>
+            <button class="ghost-button" type="button" data-delete-harvest="${item.id}">Remover</button>
+          </div>
+        </td>
       </tr>
     `;
-  }).join("") : `<tr><td colspan="6">Nenhum registro encontrado.</td></tr>`;
+  }).join("") : `<tr><td colspan="7">Nenhum registro encontrado.</td></tr>`;
 
-  elements.pageInfo.textContent = `Pagina ${currentPage} de ${totalPages}`;
+  // Adicionando os Event Listeners para os botões do Histórico
+  document.querySelectorAll("[data-edit-harvest]").forEach((button) => {
+    button.addEventListener("click", () => editHarvest(button.dataset.editHarvest));
+  });
+
+  document.querySelectorAll("[data-delete-harvest]").forEach((button) => {
+    button.addEventListener("click", () => deleteHarvest(button.dataset.deleteHarvest));
+  });
+
+  elements.pageInfo.textContent = `Página ${currentPage} de ${totalPages}`;
   elements.prevPage.disabled = currentPage === 1;
   elements.nextPage.disabled = currentPage === totalPages;
 }
@@ -357,13 +435,13 @@ function renderReports() {
   document.querySelector("#reportFinancial").textContent = formatCurrency(totals.balance);
   document.querySelector("#reportFinancialText").textContent = `${formatCurrency(totals.revenue)} em receitas e ${formatCurrency(totals.cost)} em custos.`;
   document.querySelector("#reportProfit").textContent = topProfit ? topProfit.name : "-";
-  document.querySelector("#reportProfitText").textContent = topProfit ? `Margem media de ${topProfit.margin.toFixed(1)}%.` : "Sem dados no periodo.";
+  document.querySelector("#reportProfitText").textContent = topProfit ? `Margem média de ${topProfit.margin.toFixed(1)}%.` : "Sem dados no período.";
   document.querySelector("#reportProduction").textContent = topProduction ? topProduction.name : "-";
-  document.querySelector("#reportProductionText").textContent = topProduction ? `${formatNumber(topProduction.value)} kg produzidos.` : "Sem dados no periodo.";
+  document.querySelector("#reportProductionText").textContent = topProduction ? `${formatNumber(topProduction.value)} kg produzidos.` : "Sem dados no período.";
   document.querySelector("#reportCompare").textContent = `${variation.toFixed(1)}%`;
   document.querySelector("#reportCompareText").textContent = variation >= 0
-    ? "Producao acima do periodo anterior."
-    : "Producao abaixo do periodo anterior.";
+    ? "Produção acima do período anterior."
+    : "Produção abaixo do período anterior.";
 }
 
 function renderCharts() {
@@ -376,6 +454,8 @@ function renderCharts() {
   drawDonutChart("profitChart", buildProfitSeries(filterByPeriod(state.harvests, elements.dashboardPeriod.value)));
   drawComboChart("comparisonChart", buildComparisonSeries(filterByPeriod(state.harvests, reportPeriod)));
 }
+
+// ================= UTILITÁRIOS E GRÁFICOS (MANTIDOS ORIGINAIS) =================
 
 function buildCropSeries(data, metric) {
   const map = data.reduce((acc, item) => {
@@ -547,7 +627,7 @@ function drawComboChart(id, series) {
   ctx.font = "700 12px Inter, sans-serif";
   ctx.fillStyle = cssVar("--text");
   ctx.textAlign = "left";
-  ctx.fillText("Barras: producao", padding, 24);
+  ctx.fillText("Barras: produção", padding, 24);
   ctx.fillText("Linha: rentabilidade", padding + 130, 24);
 }
 
@@ -575,7 +655,7 @@ function drawEmptyState(ctx, width, height) {
   ctx.fillStyle = cssVar("--muted");
   ctx.font = "700 15px Inter, sans-serif";
   ctx.textAlign = "center";
-  ctx.fillText("Sem dados para o periodo", width / 2, height / 2);
+  ctx.fillText("Sem dados para o período", width / 2, height / 2);
 }
 
 function roundRect(ctx, x, y, width, height, radius) {
@@ -613,13 +693,13 @@ function findTopProfit(data) {
 }
 
 function filterByPeriod(data, period) {
-  const now = new Date("2026-05-11T12:00:00");
+  const now = new Date();
   const start = getPeriodStart(now, period, 0);
   return data.filter((item) => new Date(`${item.date}T12:00:00`) >= start);
 }
 
 function filterPreviousPeriod(data, period) {
-  const now = new Date("2026-05-11T12:00:00");
+  const now = new Date();
   const start = getPeriodStart(now, period, 1);
   const end = getPeriodStart(now, period, 0);
   return data.filter((item) => {

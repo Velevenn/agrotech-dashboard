@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Agrotech | Dashboard de Gestao Agricola</title>
+  <title>Agrotech | Dashboard de Gestão Agrícola</title>
   <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Crect width='24' height='24' rx='6' fill='%2316813d'/%3E%3Cpath d='M5 14C5 8.5 9.5 4 15 4h4v4c0 5.5-4.5 10-10 10H5v-4Z' fill='none' stroke='white' stroke-width='2'/%3E%3Cpath d='M8 15c4-1 6.5-3.5 8-8' fill='none' stroke='white' stroke-width='2'/%3E%3C/svg%3E">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -11,7 +11,7 @@
   <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-  <a class="skip-link" href="#mainContent">Pular para o conteudo</a>
+  <a class="skip-link" href="#mainContent">Pular para o conteúdo</a>
 
   <main id="loginView" class="login-view" aria-labelledby="loginTitle">
     <section class="login-panel">
@@ -23,7 +23,7 @@
           </svg>
         </span>
         <div>
-          <p class="eyebrow">Controle total das operacoes</p>
+          <p class="eyebrow">Controle total das operações</p>
           <h1 id="loginTitle">Agrotech</h1>
         </div>
       </div>
@@ -41,7 +41,7 @@
               <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M2.5 12s3.5-6 9.5-6 9.5 6 9.5 6-3.5 6-9.5 6-9.5-6-9.5-6Z"></path><circle cx="12" cy="12" r="3"></circle></svg>
             </button>
           </div>
-          <p class="helper">Use os dados preenchidos para entrar no prototipo.</p>
+          <p class="helper">Use os dados preenchidos para entrar no sistema.</p>
         </div>
         <p id="loginError" class="form-error" role="alert"></p>
         <button class="primary-button wide" type="submit">Entrar no dashboard</button>
@@ -54,18 +54,18 @@
         <strong>18</strong>
       </div>
       <div class="metric-tile">
-        <span>Rentabilidade media</span>
+        <span>Rentabilidade média</span>
         <strong>34%</strong>
       </div>
       <div class="metric-tile">
-        <span>Voluntarios ativos</span>
+        <span>Voluntários ativos</span>
         <strong>42</strong>
       </div>
     </aside>
   </main>
 
   <div id="appView" class="app-shell hidden">
-    <aside class="sidebar" aria-label="Navegacao principal">
+    <aside class="sidebar" aria-label="Navegação principal">
       <div class="sidebar-brand">
         <span class="brand-mark small" aria-hidden="true">
           <svg viewBox="0 0 24 24"><path d="M4 13.5C4 7.7 8.7 3 14.5 3H20v5.5C20 14.3 15.3 19 9.5 19H4v-5.5Z"></path><path d="M7 16c4.8-1.2 8.1-4.2 10-9"></path></svg>
@@ -80,7 +80,7 @@
         </button>
         <button class="nav-link" type="button" data-section="volunteers">
           <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M22 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg>
-          Voluntarios
+          Voluntários
         </button>
         <button class="nav-link" type="button" data-section="harvest">
           <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 22V8"></path><path d="M5 12c5 0 7-4 7-9 0 5 2 9 7 9"></path><path d="M5 19c5 0 7-4 7-9 0 5 2 9 7 9"></path></svg>
@@ -88,11 +88,11 @@
         </button>
         <button class="nav-link" type="button" data-section="history">
           <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 3v5h5"></path><path d="M3.05 13A9 9 0 1 0 6 5.3L3 8"></path><path d="M12 7v5l3 2"></path></svg>
-          Historico
+          Histórico
         </button>
         <button class="nav-link" type="button" data-section="reports">
           <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 19V5"></path><path d="M4 19h17"></path><path d="M8 16v-5"></path><path d="M13 16V8"></path><path d="M18 16v-3"></path></svg>
-          Relatorios
+          Relatórios
         </button>
       </nav>
     </aside>
@@ -103,7 +103,7 @@
           <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 6h16"></path><path d="M4 12h16"></path><path d="M4 18h16"></path></svg>
         </button>
         <div>
-          <p class="eyebrow">Gestao agricola integrada</p>
+          <p class="eyebrow">Gestão agrícola integrada</p>
           <h2 id="pageTitle">Painel principal</h2>
         </div>
         <div class="topbar-actions">
@@ -116,13 +116,14 @@
       </header>
 
       <main id="mainContent" class="content">
+        <!-- HOME SECTION -->
         <section class="page-section active" id="home" aria-labelledby="homeTitle">
           <div class="section-heading">
             <div>
               <h1 id="homeTitle">Resumo em tempo real</h1>
               <p>Indicadores atualizados automaticamente a partir dos registros de colheita.</p>
             </div>
-            <select id="dashboardPeriod" aria-label="Periodo dos graficos">
+            <select id="dashboardPeriod" aria-label="Período dos gráficos">
               <option value="monthly">Mensal</option>
               <option value="weekly">Semanal</option>
               <option value="yearly">Anual</option>
@@ -131,22 +132,22 @@
 
           <div class="kpi-grid">
             <article class="kpi-card">
-              <span>Producao total</span>
+              <span>Produção total</span>
               <strong id="kpiProduction">0 kg</strong>
               <small id="kpiProductionTrend">Atualizado agora</small>
             </article>
             <article class="kpi-card">
               <span>Receita estimada</span>
               <strong id="kpiRevenue">R$ 0</strong>
-              <small>Com base no preco medio</small>
+              <small>Com base no preço médio</small>
             </article>
             <article class="kpi-card">
-              <span>Cultura lider</span>
+              <span>Cultura líder</span>
               <strong id="kpiTopCrop">-</strong>
               <small>Maior volume registrado</small>
             </article>
             <article class="kpi-card">
-              <span>Balanco</span>
+              <span>Balanço</span>
               <strong id="kpiBalance">R$ 0</strong>
               <small>Receitas menos custos</small>
             </article>
@@ -155,26 +156,27 @@
           <div class="chart-grid">
             <article class="panel chart-panel">
               <div class="panel-header">
-                <h3>Producao por cultura</h3>
-                <span class="status-pill">Dinamico</span>
+                <h3>Produção por cultura</h3>
+                <span class="status-pill">Dinâmico</span>
               </div>
-              <canvas id="productionChart" height="280" aria-label="Grafico de barras de producao por cultura" role="img"></canvas>
+              <canvas id="productionChart" height="280" aria-label="Gráfico de barras de produção por cultura" role="img"></canvas>
             </article>
             <article class="panel chart-panel">
               <div class="panel-header">
                 <h3>Rentabilidade</h3>
                 <span class="status-pill">Margem</span>
               </div>
-              <canvas id="profitChart" height="280" aria-label="Grafico de rentabilidade por cultura" role="img"></canvas>
+              <canvas id="profitChart" height="280" aria-label="Gráfico de rentabilidade por cultura" role="img"></canvas>
             </article>
           </div>
         </section>
 
+        <!-- VOLUNTEERS SECTION -->
         <section class="page-section" id="volunteers" aria-labelledby="volunteersTitle">
           <div class="section-heading">
             <div>
-              <h1 id="volunteersTitle">Cadastro de voluntarios</h1>
-              <p>Insira, edite e acompanhe pessoas envolvidas nas operacoes.</p>
+              <h1 id="volunteersTitle">Cadastro de voluntários</h1>
+              <p>Insira, edite e acompanhe pessoas envolvidas nas operações.</p>
             </div>
           </div>
           <div class="split-layout">
@@ -185,14 +187,14 @@
                 <input id="volunteerName" type="text" required>
               </div>
               <div class="field">
-                <label for="volunteerRole">Funcao</label>
+                <label for="volunteerRole">Função</label>
                 <select id="volunteerRole" required>
                   <option value="">Selecione</option>
                   <option>Plantio</option>
                   <option>Colheita</option>
-                  <option>Irrigacao</option>
-                  <option>Logistica</option>
-                  <option>Administracao</option>
+                  <option>Irrigação</option>
+                  <option>Logística</option>
+                  <option>Administração</option>
                 </select>
               </div>
               <div class="field">
@@ -200,7 +202,7 @@
                 <input id="volunteerPhone" type="tel" placeholder="(00) 00000-0000" required>
               </div>
               <div class="form-actions">
-                <button class="primary-button" type="submit">Salvar voluntario</button>
+                <button class="primary-button" type="submit">Salvar voluntário</button>
                 <button class="ghost-button" type="button" id="clearVolunteer">Limpar</button>
               </div>
             </form>
@@ -215,9 +217,9 @@
                   <thead>
                     <tr>
                       <th>Nome</th>
-                      <th>Funcao</th>
+                      <th>Função</th>
                       <th>Telefone</th>
-                      <th>Acoes</th>
+                      <th>Ações</th>
                     </tr>
                   </thead>
                   <tbody id="volunteerTable"></tbody>
@@ -227,14 +229,18 @@
           </div>
         </section>
 
+        <!-- HARVEST SECTION -->
         <section class="page-section" id="harvest" aria-labelledby="harvestTitle">
           <div class="section-heading">
             <div>
               <h1 id="harvestTitle">Registro de colheita</h1>
-              <p>Registre safras com data, cultura, quantidade, responsavel e valores financeiros.</p>
+              <p>Registre ou edite safras com data, cultura, quantidade, responsável e valores financeiros.</p>
             </div>
           </div>
           <form id="harvestForm" class="panel grid-form">
+            <!-- Novo campo oculto para gerenciar a edição -->
+            <input type="hidden" id="harvestId">
+            
             <div class="field">
               <label for="harvestDate">Data</label>
               <input id="harvestDate" type="date" required>
@@ -247,7 +253,7 @@
                 <option>Tomate</option>
                 <option>Mandioca</option>
                 <option>Milho</option>
-                <option>Feijao</option>
+                <option>Feijão</option>
                 <option>Cenoura</option>
               </select>
             </div>
@@ -256,7 +262,7 @@
               <input id="quantity" type="number" min="1" step="1" required>
             </div>
             <div class="field">
-              <label for="responsible">Responsavel</label>
+              <label for="responsible">Responsável</label>
               <select id="responsible" required></select>
             </div>
             <div class="field">
@@ -268,21 +274,22 @@
               <input id="unitCost" type="number" min="0" step="0.01" required>
             </div>
             <div class="form-actions full">
-              <button class="primary-button" type="submit">Registrar colheita</button>
-              <button class="ghost-button" type="reset">Limpar formulario</button>
+              <button class="primary-button" type="submit">Salvar colheita</button>
+              <button class="ghost-button" type="button" id="clearHarvest">Limpar formulário</button>
             </div>
           </form>
         </section>
 
+        <!-- HISTORY SECTION -->
         <section class="page-section" id="history" aria-labelledby="historyTitle">
           <div class="section-heading">
             <div>
-              <h1 id="historyTitle">Historico de producao</h1>
-              <p>Consulte o acervo completo com pesquisa e paginacao.</p>
+              <h1 id="historyTitle">Histórico de produção</h1>
+              <p>Consulte, edite ou exclua o acervo completo de colheitas registradas.</p>
             </div>
             <div class="search-box">
               <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7"></circle><path d="m20 20-3.5-3.5"></path></svg>
-              <input id="historySearch" type="search" placeholder="Pesquisar cultura ou responsavel" aria-label="Pesquisar historico">
+              <input id="historySearch" type="search" placeholder="Pesquisar cultura ou responsável" aria-label="Pesquisar histórico">
             </div>
           </div>
           <article class="panel table-panel">
@@ -293,9 +300,10 @@
                     <th>Data</th>
                     <th>Cultura</th>
                     <th>Quantidade</th>
-                    <th>Responsavel</th>
+                    <th>Responsável</th>
                     <th>Receita</th>
-                    <th>Balanco</th>
+                    <th>Balanço</th>
+                    <th>Ações</th> <!-- Nova coluna -->
                   </tr>
                 </thead>
                 <tbody id="historyTable"></tbody>
@@ -303,19 +311,20 @@
             </div>
             <div class="pagination">
               <button id="prevPage" class="ghost-button" type="button">Anterior</button>
-              <span id="pageInfo">Pagina 1 de 1</span>
-              <button id="nextPage" class="ghost-button" type="button">Proxima</button>
+              <span id="pageInfo">Página 1 de 1</span>
+              <button id="nextPage" class="ghost-button" type="button">Próxima</button>
             </div>
           </article>
         </section>
 
+        <!-- REPORTS SECTION -->
         <section class="page-section" id="reports" aria-labelledby="reportsTitle">
           <div class="section-heading">
             <div>
-              <h1 id="reportsTitle">Relatorios automaticos</h1>
-              <p>Analises financeiras, rentabilidade, producao e comparativos por periodo.</p>
+              <h1 id="reportsTitle">Relatórios automáticos</h1>
+              <p>Análises financeiras, rentabilidade, produção e comparativos por período.</p>
             </div>
-            <div class="segmented-control" aria-label="Filtro de tempo dos relatorios">
+            <div class="segmented-control" aria-label="Filtro de tempo dos relatórios">
               <button class="segment active" type="button" data-report-period="weekly">Semanal</button>
               <button class="segment" type="button" data-report-period="monthly">Mensal</button>
               <button class="segment" type="button" data-report-period="yearly">Anual</button>
@@ -324,9 +333,9 @@
 
           <div class="report-grid">
             <article class="panel report-card">
-              <span>Relatorio financeiro</span>
+              <span>Relatório financeiro</span>
               <strong id="reportFinancial">R$ 0</strong>
-              <p id="reportFinancialText">Receitas, custos e balanco do periodo.</p>
+              <p id="reportFinancialText">Receitas, custos e balanço do período.</p>
             </article>
             <article class="panel report-card">
               <span>Rentabilidade</span>
@@ -334,23 +343,23 @@
               <p id="reportProfitText">Cultura com maior margem estimada.</p>
             </article>
             <article class="panel report-card">
-              <span>Producao</span>
+              <span>Produção</span>
               <strong id="reportProduction">-</strong>
-              <p id="reportProductionText">Alimento mais produzido no periodo.</p>
+              <p id="reportProductionText">Alimento mais produzido no período.</p>
             </article>
             <article class="panel report-card">
               <span>Comparativo</span>
               <strong id="reportCompare">0%</strong>
-              <p id="reportCompareText">Comparacao com o periodo anterior.</p>
+              <p id="reportCompareText">Comparação com o período anterior.</p>
             </article>
           </div>
 
           <article class="panel chart-panel">
             <div class="panel-header">
-              <h3>Comparativo producao x rentabilidade</h3>
+              <h3>Comparativo produção x rentabilidade</h3>
               <span class="status-pill">Cruzamento</span>
             </div>
-            <canvas id="comparisonChart" height="300" aria-label="Grafico comparativo de producao e rentabilidade" role="img"></canvas>
+            <canvas id="comparisonChart" height="300" aria-label="Gráfico comparativo de produção e rentabilidade" role="img"></canvas>
           </article>
         </section>
       </main>
